@@ -9,14 +9,16 @@ import { FaStar } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import Image from 'react-bootstrap/Image';
 import { ScaleLoader } from "react-spinners";
-import { MdExpandMore,MdOutlineFavorite } from "react-icons/md";
+import { MdExpandMore } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { add, remove } from "../slice/saveSlice";
+import { FaBookmark } from "react-icons/fa";
 function Home() {
   const [text,settext] = useState('');
   const [recipe,setrecipe] = useState([]);
   const [search,setsearch] = useState('');
   const [load,setload] = useState(true)
+  const [sortdish,setsortdish] = useState('');
 
   const [limit,setlimit] = useState(8)
   const dispatch = useDispatch();
@@ -27,12 +29,19 @@ function Home() {
         setload(false)
     },1000 ))
 
-    fetch(`https://dummyjson.com/recipes?limit=${limit}`)
-    // fetch('https://dummyjson.com/recipes')
+    if(sortdish === ''){
+      fetch(`https://dummyjson.com/recipes?limit=${limit}`)
+      // fetch('https://dummyjson.com/recipes')
+        .then((res)=>res.json())
+        .then((data)=>setrecipe(data.recipes))
+        .catch((error)=>console.error('Error',error))
+    }
+    else{
+      fetch(`https://dummyjson.com/recipes/meal-type/${sortdish}?limit=${limit}`)
       .then((res)=>res.json())
       .then((data)=>setrecipe(data.recipes))
-      .catch((error)=>console.error('Error',error))
-  },[limit])
+    }
+  },[limit,sortdish])
 
   const searchitem = () =>{
     fetch(`https://dummyjson.com/recipes/search?q=${search}`)
@@ -47,7 +56,6 @@ function Home() {
       </div>
     )
   }
-
  
   return (
     <>
@@ -78,7 +86,30 @@ function Home() {
       
       <Container className="my-5">
         <h1 className="text-center">Discover Recipes</h1>
-        <p className="text-center">Explore our latest recipes, from quick snacks to hearty meals and indulgent desserts.</p>
+        <p className="text-center pb-5">Explore our latest recipes, from quick snacks to hearty meals and indulgent desserts.</p>
+        
+      <div className="mb-1">
+        <div className="btn-group  gap-lg-5 gap-md-3 d-flex flex-wrap w-100 px-5" role="group" aria-label="Basic radio toggle button group">
+        <input type="radio" className="btn-check  " name="btnradio" id="btnradio1"  defaultChecked  onChange={()=>{setsortdish('')}}/>
+        <label className="btn btn-outline-danger my-1 rounded-5" htmlFor="btnradio1">All Recipes</label>
+
+        <input type="radio" className="btn-check " name="btnradio" id="btnradio6" onChange={()=>{setsortdish('breakfast')}} />
+        <label className="btn btn-outline-danger my-1 rounded-5" htmlFor="btnradio6">Breakfast</label>
+
+        <input type="radio" className="btn-check  " name="btnradio" id="btnradio2" onChange={()=>{setsortdish('lunch')}} />
+        <label className="btn btn-outline-danger my-1 rounded-5" htmlFor="btnradio2">Lunch</label>
+        
+        <input type="radio" className="btn-check " name="btnradio" id="btnradio3" onChange={()=>{setsortdish('dinner')}} />
+        <label className="btn btn-outline-danger my-1 rounded-5" htmlFor="btnradio3">Dinner</label>
+
+        <input type="radio" className="btn-check " name="btnradio" id="btnradio4" onChange={()=>{setsortdish('snack')}} />
+        <label className="btn btn-outline-danger my-1 rounded-5" htmlFor="btnradio4">Snack</label>
+
+        <input type="radio" className="btn-check " name="btnradio" id="btnradio5" onChange={()=>{setsortdish('dessert')}} />
+        <label className="btn btn-outline-danger my-1 rounded-5" htmlFor="btnradio5">Dessert</label>
+
+      </div>
+      </div>
 
         <Row>
           {
@@ -103,7 +134,7 @@ function Home() {
        
                        <div>
                         <input type="checkbox" className="btn-check" id={val.id} autoComplete="off" checked={issaved} onChange={(e)=>{e.target.checked  ? dispatch(add(val)) : dispatch(remove(val))}} />
-                        <label className="btn btn-outline-danger rounded-5" htmlFor={val.id}><MdOutlineFavorite /></label>
+                        <label className="btn btn-outline-danger rounded-5" htmlFor={val.id}><FaBookmark /></label>
                       </div>
                     </div>
                       
@@ -112,9 +143,11 @@ function Home() {
               )
             }) : <Image src={require('../components/notfound.jpg')} className="error" fluid />
           }
-          <div className="text-center">
+          {
+            recipe.length >= 8 ? <div className="text-center">
             <Button variant="outline-danger" onClick={()=>{setlimit(limit+4)}}>View more recipes <MdExpandMore /></Button>
-          </div>
+          </div> : null
+          }
         </Row>
       </Container>
     </>

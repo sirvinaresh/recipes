@@ -8,9 +8,8 @@ import { FaStar } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import { IoHome } from "react-icons/io5";
 import { useDispatch, useSelector } from 'react-redux';
-import { MdOutlineFavorite } from "react-icons/md";
 import { add, remove } from '../slice/saveSlice';
-
+import { FaBookmark } from "react-icons/fa";
 function Recipe() {
     const [recipe,setrecipe] = useState([]);
     const data = useSelector((state)=>state.save.value);
@@ -49,7 +48,7 @@ function Recipe() {
        
                        <div>
                         <input type="checkbox" className="btn-check" id={val.id} autoComplete="off" checked={issaved} onChange={(e)=>{e.target.checked  ? dispatch(add(val)) : dispatch(remove(val))}} />
-                        <label className="btn btn-outline-danger rounded-5" htmlFor={val.id}><MdOutlineFavorite /></label>
+                        <label className="btn btn-outline-danger rounded-5" htmlFor={val.id}><FaBookmark /></label>
                       </div>
                     </div>
 

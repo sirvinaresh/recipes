@@ -3,9 +3,9 @@ import { NavLink } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
 import Image from 'react-bootstrap/Image';
+import { FaRegBookmark } from "react-icons/fa6";
 function Header() {
   return (
     <>
@@ -22,7 +22,7 @@ function Header() {
               <NavLink className='nav-link text-light fs-5' to="blog">Blog</NavLink>
               <NavLink className='nav-link text-light fs-5' to="features">Features</NavLink>
               <Nav className="ms-lg-5 mt-lg-2 gap-3 flex-row">
-                <NavLink className='icon-show text-light fs-5' to='fav'><MdOutlineFavoriteBorder /></NavLink>
+                <NavLink className='icon-show text-light fs-5' to='fav'><FaRegBookmark /></NavLink>
                 <NavLink className='text-light fs-5'><FiUser /></NavLink>
               </Nav>
             </Nav>

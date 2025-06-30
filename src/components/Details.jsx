@@ -44,7 +44,7 @@ function Details() {
           <Col lg={6} md={12} sm={12}>
             
             <div className="shadow-sm bg-secondary-subtle p-4 mt-3">
-                <div className="d-flex gap-4  text-danger fw-bold">
+                <div className="d-flex flex-wrap gap-4  text-danger fw-bold">
                     {
                         recipe.tags?.map((ano,i)=>{
                             return(

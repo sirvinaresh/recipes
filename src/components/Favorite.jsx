@@ -8,8 +8,8 @@ import Card from 'react-bootstrap/Card';
 import { FaStar } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-import {MdOutlineFavorite } from "react-icons/md";
 import Image from 'react-bootstrap/Image';
+import { FaBookmark } from "react-icons/fa";
 
 function Favorite() {
 
@@ -44,7 +44,7 @@ function Favorite() {
        
                        <div>
                         <input type="checkbox" className="btn-check" id={val.id} autoComplete="off" checked={true} onChange={(e)=>{dispatch(remove(val))}} />
-                        <label className="btn btn-outline-danger rounded-5" htmlFor={val.id}><MdOutlineFavorite /></label>
+                        <label className="btn btn-outline-danger rounded-5" htmlFor={val.id}><FaBookmark /></label>
                       </div>
                     </div>
                       
